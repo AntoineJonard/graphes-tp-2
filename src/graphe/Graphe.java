@@ -89,7 +89,36 @@ public class Graphe {
 		adjacent.remove(s);
 		
 		return adjacent;
-		
+	}
+	
+	public int nbLigne() {
+		return this.sommets.size();
+	}
+	
+	public int nbColonne() {
+		return this.sommets.get(0).size();
+	}
+	
+	public Sommet coordStart() {
+		for(int i=0; i<this.nbLigne(); i++) {
+			for(int j=0; j<this.nbColonne(); j++) {
+				if(this.getSommet(i, j).type.equals(Type.START)) {
+					return this.getSommet(i, j);
+				}
+			}
+		}
+		return null;
+	}
+	
+	public Sommet coordEnd() {
+		for(int i=0; i<this.nbLigne(); i++) {
+			for(int j=0; j<this.nbColonne(); j++) {
+				if(this.getSommet(i, j).type.equals(Type.END)) {
+					return this.getSommet(i, j);
+				}
+			}
+		}
+		return null;
 	}
 
 	@Override

@@ -11,11 +11,11 @@ public class Sommet {
 		this.type = type;
 	}
 	
-	double getFlightDistTo(Sommet s) {
+	public double getFlightDistTo(Sommet s) {
 		return Math.sqrt(Math.pow(x - s.x, 2) + Math.pow(y - s.y, 2));
 	}
 	
-	double getDistToAdjacent(Sommet s) {
+	public double getDistToAdjacent(Sommet s) {
 		
 		if (s.type != Type.OBSTACLE && this.type != Type.OBSTACLE) {
 			int diff = Math.abs(getCoordSum()+s.getCoordSum());

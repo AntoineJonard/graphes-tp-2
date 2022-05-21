@@ -56,6 +56,18 @@ public class Exemple2 {
         	// solve model
         	if (cplex.solve()) {
         		System.out.println("obj = "+cplex.getObjValue());
+        		double ySol     = cplex.getValue(y);
+        		System.out.println("y = "+ ySol);
+        		
+        		for(int o=0; o<x.length ; o++) {
+        			double[] xSol     = cplex.getValues(x[o]);
+        			System.out.print("Cargo numéro " + o + " : ");
+            		for(int i=0; i<xSol.length ; i++) {
+            			System.out.print("xSol = " + xSol[i] + "\t");
+            		}
+            		System.out.print("\n");
+        		}
+        		
         	}
         	else {
         		System.out.println("problem not solved");

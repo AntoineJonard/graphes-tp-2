@@ -11,6 +11,8 @@ import java.util.List;
 public class Graphe {
 	
 	private List<List<Sommet>> sommets;
+	private Sommet start;
+	private Sommet goal;
 
 	public Graphe(String fileName) {
 		super();
@@ -30,20 +32,17 @@ public class Graphe {
 			
 			int cptLigne = 0;
 			
-			boolean start = false;
-			boolean end = false;
-			
 	        while ((line = bufferedReader.readLine()) != null && cptLigne < nbLigne){
 	            String[] infoSommets = line.split("\\s+");
 	            sommets.add(new ArrayList<>());
 	            for (int cptCol = 0 ; cptCol < nbCol ; cptCol++) {
 	            	Type type = Type.getTypeFrom(Integer.parseInt(infoSommets[cptCol]));
+					Sommet toAdd = new Sommet(cptCol, cptLigne, type);
+					sommets.get(cptLigne).add(toAdd);
 	            	if (type == Type.START)
-	            		start = true;
+	            		start = toAdd;
 	            	if (type == Type.END)
-	            		end = true;
-	            	Sommet toAdd = new Sommet(cptCol, cptLigne, type);
-	            	sommets.get(cptLigne).add(toAdd);
+	            		goal = toAdd;
 	            }
 	            
 	            cptLigne ++;
@@ -51,7 +50,7 @@ public class Graphe {
 	        
 	        bufferedReader.close();
 	        
-	        if (end && start && nbCol < 500 && nbLigne <500)
+	        if (goal != null && start != null && nbCol < 500 && nbLigne <500)
 	        	System.out.println("Réussite de la création du graphe");
 	        else
 	        	throw new InvalidGraphException();
@@ -62,6 +61,12 @@ public class Graphe {
 			System.out.println("Error while reading file, verify it validity");
 		} catch (InvalidGraphException e) {
 			System.out.println("Invalid graph, too many cols, lines, or no end and start");
+		}
+
+		for (List<Sommet> line : sommets){
+			for (Sommet sommet : line){
+				sommet.setAdjacents(getAdjacentsTo(sommet));
+			}
 		}
         
 	}
@@ -74,7 +79,7 @@ public class Graphe {
 		}
 	}
 	
-	public List<Sommet> getAdjacentsTo(Sommet s){
+	private List<Sommet> getAdjacentsTo(Sommet s){
 		
 		List<Sommet> adjacent = new ArrayList<>();
 		
@@ -100,34 +105,20 @@ public class Graphe {
 	}
 	
 	public Sommet coordStart() {
-		for(int i=0; i<this.nbLigne(); i++) {
-			for(int j=0; j<this.nbColonne(); j++) {
-				if(this.getSommet(i, j).type.equals(Type.START)) {
-					return this.getSommet(i, j);
-				}
-			}
-		}
-		return null;
+		return start;
 	}
 	
 	public Sommet coordEnd() {
-		for(int i=0; i<this.nbLigne(); i++) {
-			for(int j=0; j<this.nbColonne(); j++) {
-				if(this.getSommet(i, j).type.equals(Type.END)) {
-					return this.getSommet(i, j);
-				}
-			}
-		}
-		return null;
+		return goal;
 	}
 
 	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		
-		for (List<Sommet> ligne : sommets) {
-			for (Sommet s : ligne) {
-				sb.append(s+" ");
+		for (List<Sommet> line : sommets) {
+			for (Sommet s : line) {
+				sb.append(s).append(" ");
 			}
 			sb.append("\n");
 		}

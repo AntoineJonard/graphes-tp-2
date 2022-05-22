@@ -1,14 +1,19 @@
 package graphe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Sommet {
 	int x,y;
 	Type type;
+	private  List<Sommet> adjacents;
 
 	public Sommet(int x, int y, Type type) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.type = type;
+		adjacents = new ArrayList<>();
 	}
 	
 	public double getFlightDistTo(Sommet s) {
@@ -34,7 +39,11 @@ public class Sommet {
 			return -1;
 		}
 	}
-	
+
+	public void setAdjacents(List<Sommet> adjacents) {
+		this.adjacents = adjacents;
+	}
+
 	private int getCoordSum() {
 		return x + y;
 	}

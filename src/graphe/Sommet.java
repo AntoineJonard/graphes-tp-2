@@ -44,6 +44,10 @@ public class Sommet {
 		this.adjacents = adjacents;
 	}
 
+	public List<Sommet> getAdjacents() {
+		return adjacents;
+	}
+
 	private int getCoordSum() {
 		return x + y;
 	}

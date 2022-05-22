@@ -1,6 +1,10 @@
 package aStarIsBorn;
 
 import graphe.Graphe;
+import graphe.Sommet;
+
+import java.util.*;
+import java.util.function.BiFunction;
 
 /**
  * Jackson Maine (Bradley Cooper) se produit dans des concerts qui se vendent bien – tout en ayant des acouphènes assez fréquents et des addictions à l'alcool et à la drogue qu'il cache au public. Son principal soutien et manager n'est autre que son demi-frère aîné Bobby (Sam Elliott) qui s'occupe de lui. Ally Campana (Lady Gaga) est une jeune autrice-compositrice qui travaille comme serveuse avec son ami Ramon (Anthony Ramos), tout en chantant dans un bar de drag queens. Après un concert au Coachella Festival, Jackson arrive dans ce même bar pour boire un verre et découvre Ally qui chante La Vie en rose. Impressionné par son talent, il partage un verre avec elle. Ally lui révèle qu'elle n'a jamais poursuivi de carrière professionnelle car les gens de l'industrie lui ont trop souvent dit qu'elle avait un nez trop grand et qu'elle n'arriverait jamais à rien. Jackson lui avoue trouver cela séduisant et lui propose d'écrire des chansons ensemble. Elle le ramène chez elle, où elle vit avec son père veuf, Lorenzo (Andrew Dice Clay), qui dirige un service de chauffeurs avec ses amis. Jackson demande à Ally de venir à son concert le soir même, mais elle refuse malgré l'insistance de Lorenzo. Elle change finalement d'avis et emmène Ramon avec elle. Jackson demande à Ally de chanter avec lui sur scène. Après hésitation, elle cède et finit par être adulée sur les réseaux sociaux grâce à son interprétation de Shallow.
@@ -13,9 +17,76 @@ import graphe.Graphe;
 
 public class A_Star {
 
+    BiFunction<Sommet,Sommet,Double> heuristique;
+
     void resolve(Graphe g){
 
+        Map<Sommet,AStarSommetInfo> mappedSommets = new HashMap<>();
+
+        for (Sommet s : g.allSommets()){
+            AStarSommetInfo sommetInfo = new AStarSommetInfo();
+
+            if (s == g.getStart()){
+                sommetInfo.minDist = 0;
+                sommetInfo.hDist = heuristique.apply(s,g.getGoal());
+            }
+
+            mappedSommets.put(s, sommetInfo);
+        }
+
+        PriorityQueue<Sommet> discoveredNodes = new PriorityQueue<>(
+                Comparator.comparingDouble(sommet -> mappedSommets.get(sommet).hDist)
+        );
+
+        discoveredNodes.add(g.getStart());
+
+        while (!discoveredNodes.isEmpty()){
+            Sommet current = discoveredNodes.poll();
+
+            if (current == g.getGoal())
+                return;
+
+            for (Sommet adjacent : current.getAdjacents()){
+                double newMinDist = mappedSommets.get(current).minDist + current.getFlightDistTo(adjacent);
+                if (Double.compare(newMinDist, mappedSommets.get(adjacent).minDist) < 0 ){
+                    mappedSommets.get(adjacent).from = current;
+                    mappedSommets.get(adjacent).minDist = newMinDist;
+                    mappedSommets.get(adjacent).hDist = newMinDist + heuristique.apply(adjacent,g.getGoal());
+
+                    if (!discoveredNodes.contains(adjacent)){
+                        discoveredNodes.add(adjacent);
+                    }
+                }
+            }
+        }
     }
 
+    List<Sommet> getPath(Map<Sommet,AStarSommetInfo> infos, Sommet current){
+        List<Sommet> path = new ArrayList<>();
+        path.add(current);
+        while (current != null){
+            current = infos.get(current).from;
+            path.add(current);
+        }
+        return path;
+    }
+
+
+    static class AStarSommetInfo implements Comparable<AStarSommetInfo>{
+        Sommet from;
+        double minDist;
+        double hDist;
+
+        public AStarSommetInfo() {
+            this.from = null;
+            minDist = Double.MAX_VALUE;
+            hDist = Double.MAX_VALUE;
+        }
+
+        @Override
+        public int compareTo(AStarSommetInfo o) {
+            return Double.compare(this.hDist,o.hDist);
+        }
+    }
 }
 

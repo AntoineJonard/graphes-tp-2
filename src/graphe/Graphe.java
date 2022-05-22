@@ -70,7 +70,11 @@ public class Graphe {
 		}
         
 	}
-	
+
+	public List<List<Sommet>> getSommets() {
+		return sommets;
+	}
+
 	public Sommet getSommet(int x, int y) {
 		try {
 			return sommets.get(x).get(y);
@@ -103,12 +107,24 @@ public class Graphe {
 	public int nbColonne() {
 		return this.sommets.get(0).size();
 	}
+
+	public List<Sommet> allSommets(){
+		List<Sommet> allSommets = new ArrayList<>();
+
+		for (List<Sommet> line : sommets){
+			for (Sommet sommet : line){
+				allSommets.add(sommet);
+			}
+		}
+
+		return allSommets;
+	}
 	
-	public Sommet coordStart() {
+	public Sommet getStart() {
 		return start;
 	}
 	
-	public Sommet coordEnd() {
+	public Sommet getGoal() {
 		return goal;
 	}
 

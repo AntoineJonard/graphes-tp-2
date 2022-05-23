@@ -89,7 +89,7 @@ public class Graphe {
 		
 		for (int x = -1 ; x < 2 ; x++) {
 			for (int y = -1 ; y < 2 ; y++) {
-				Sommet adj = getSommet(s.x + x,s.y + y);
+				Sommet adj = getSommet(s.getX() + x,s.getY() + y);
 				if (adj != null)
 					adjacent.add(adj);
 			}	

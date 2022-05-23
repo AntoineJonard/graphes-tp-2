@@ -1,10 +1,15 @@
 package aStarIsBorn;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.function.BiFunction;
+
 import graphe.Graphe;
 import graphe.Sommet;
-
-import java.util.*;
-import java.util.function.BiFunction;
 
 /**
  * Jackson Maine (Bradley Cooper) se produit dans des concerts qui se vendent bien – tout en ayant des acouphènes assez fréquents et des addictions à l'alcool et à la drogue qu'il cache au public. Son principal soutien et manager n'est autre que son demi-frère aîné Bobby (Sam Elliott) qui s'occupe de lui. Ally Campana (Lady Gaga) est une jeune autrice-compositrice qui travaille comme serveuse avec son ami Ramon (Anthony Ramos), tout en chantant dans un bar de drag queens. Après un concert au Coachella Festival, Jackson arrive dans ce même bar pour boire un verre et découvre Ally qui chante La Vie en rose. Impressionné par son talent, il partage un verre avec elle. Ally lui révèle qu'elle n'a jamais poursuivi de carrière professionnelle car les gens de l'industrie lui ont trop souvent dit qu'elle avait un nez trop grand et qu'elle n'arriverait jamais à rien. Jackson lui avoue trouver cela séduisant et lui propose d'écrire des chansons ensemble. Elle le ramène chez elle, où elle vit avec son père veuf, Lorenzo (Andrew Dice Clay), qui dirige un service de chauffeurs avec ses amis. Jackson demande à Ally de venir à son concert le soir même, mais elle refuse malgré l'insistance de Lorenzo. Elle change finalement d'avis et emmène Ramon avec elle. Jackson demande à Ally de chanter avec lui sur scène. Après hésitation, elle cède et finit par être adulée sur les réseaux sociaux grâce à son interprétation de Shallow.
@@ -16,10 +21,15 @@ import java.util.function.BiFunction;
  */
 
 public class A_Star {
+	
+	Heuristique heuristique;
 
-    BiFunction<Sommet,Sommet,Double> heuristique;
+    public A_Star(Heuristique heuristique) {
+		super();
+		this.heuristique = heuristique;
+	}
 
-    void resolve(Graphe g){
+	void resolve(Graphe g){
 
         Map<Sommet,AStarSommetInfo> mappedSommets = new HashMap<>();
 
@@ -28,7 +38,7 @@ public class A_Star {
 
             if (s == g.getStart()){
                 sommetInfo.minDist = 0;
-                sommetInfo.hDist = heuristique.apply(s,g.getGoal());
+                sommetInfo.hDist = heuristique.heuristique.apply(s,g.getGoal());
             }
 
             mappedSommets.put(s, sommetInfo);
@@ -51,7 +61,7 @@ public class A_Star {
                 if (Double.compare(newMinDist, mappedSommets.get(adjacent).minDist) < 0 ){
                     mappedSommets.get(adjacent).from = current;
                     mappedSommets.get(adjacent).minDist = newMinDist;
-                    mappedSommets.get(adjacent).hDist = newMinDist + heuristique.apply(adjacent,g.getGoal());
+                    mappedSommets.get(adjacent).hDist = newMinDist + heuristique.heuristique.apply(adjacent,g.getGoal());
 
                     if (!discoveredNodes.contains(adjacent)){
                         discoveredNodes.add(adjacent);
@@ -88,5 +98,6 @@ public class A_Star {
             return Double.compare(this.hDist,o.hDist);
         }
     }
+   
 }
 

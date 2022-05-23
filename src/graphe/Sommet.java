@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Sommet {
-	int x,y;
-	Type type;
+	private int x,y;
+	private Type type;
 	private  List<Sommet> adjacents;
 
 	public Sommet(int x, int y, Type type) {
@@ -16,6 +16,18 @@ public class Sommet {
 		adjacents = new ArrayList<>();
 	}
 	
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public Type getType() {
+		return type;
+	}
+
 	public double getFlightDistTo(Sommet s) {
 		return Math.sqrt(Math.pow(x - s.x, 2) + Math.pow(y - s.y, 2));
 	}

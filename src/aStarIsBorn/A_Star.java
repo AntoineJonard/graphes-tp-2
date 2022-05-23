@@ -29,7 +29,7 @@ public class A_Star {
 		this.heuristique = heuristique;
 	}
 
-	void resolve(Graphe g){
+	List<Sommet> resolve(Graphe g){
 
         Map<Sommet,AStarSommetInfo> mappedSommets = new HashMap<>();
 
@@ -54,9 +54,9 @@ public class A_Star {
             Sommet current = discoveredNodes.poll();
 
             if (current == g.getGoal())
-                return;
+                return getPath(mappedSommets, current);
 
-            for (Sommet adjacent : current.getAdjacents()){
+            for (Sommet adjacent : current.getAccessibleAdjacents()){
                 double newMinDist = mappedSommets.get(current).minDist + current.getFlightDistTo(adjacent);
                 if (Double.compare(newMinDist, mappedSommets.get(adjacent).minDist) < 0 ){
                     mappedSommets.get(adjacent).from = current;
@@ -69,14 +69,16 @@ public class A_Star {
                 }
             }
         }
+        return null;
     }
 
-    List<Sommet> getPath(Map<Sommet,AStarSommetInfo> infos, Sommet current){
+    private List<Sommet> getPath(Map<Sommet,AStarSommetInfo> infos, Sommet current){
         List<Sommet> path = new ArrayList<>();
         path.add(current);
         while (current != null){
             current = infos.get(current).from;
-            path.add(current);
+            if (current != null)
+            	path.add(current);
         }
         return path;
     }

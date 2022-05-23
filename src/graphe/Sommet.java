@@ -2,6 +2,7 @@ package graphe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Sommet {
 	private int x,y;
@@ -58,6 +59,10 @@ public class Sommet {
 
 	public List<Sommet> getAdjacents() {
 		return adjacents;
+	}
+	
+	public List<Sommet> getAccessibleAdjacents() {
+		return adjacents.stream().filter((s)-> s.type != Type.OBSTACLE).collect(Collectors.toList());
 	}
 
 	private int getCoordSum() {

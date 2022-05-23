@@ -68,6 +68,7 @@ public class Graphe {
 				sommet.setAdjacents(getAdjacentsTo(sommet));
 			}
 		}
+		
         
 	}
 
@@ -77,7 +78,7 @@ public class Graphe {
 
 	public Sommet getSommet(int x, int y) {
 		try {
-			return sommets.get(x).get(y);
+			return sommets.get(y).get(x);
 		}catch (IndexOutOfBoundsException e){
 			return null;
 		}
@@ -90,13 +91,11 @@ public class Graphe {
 		for (int x = -1 ; x < 2 ; x++) {
 			for (int y = -1 ; y < 2 ; y++) {
 				Sommet adj = getSommet(s.getX() + x,s.getY() + y);
-				if (adj != null)
+				if (adj != null && adj != s)
 					adjacent.add(adj);
 			}	
 		}
-		
-		adjacent.remove(s);
-		
+				
 		return adjacent;
 	}
 	

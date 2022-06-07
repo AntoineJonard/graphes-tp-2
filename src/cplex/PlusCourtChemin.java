@@ -13,12 +13,14 @@ public class PlusCourtChemin {
 	public static void solveMe(Graphe g) {
 		// g est le graphe
 		
+		// définition de "n" le nombre de sommets dans le graph
+		int n = g.nbColonne() * g.nbLigne();		
 		
 		//Constante 
-		//d pour le distance entre le point i (x,y que l'on calcul) et j (x,y que l'on calcul)
-		double[][] d = new double[g.nbLigne()*g.nbColonne()][g.nbLigne()*g.nbColonne()];
-		for (int i=0; i<g.nbLigne()*g.nbColonne(); i++) {
-			for (int j=0; j<g.nbColonne()*g.nbColonne(); j++) {
+		//c pour : le cout/la distance, entre le point i (x,y que l'on calcul) et j (x,y que l'on calcul)
+		double[][] c = new double[n][n];
+		for (int i=0; i<n; i++) {
+			for (int j=0; j<n; j++) {
 				int xPosI = i/g.nbColonne();
 				int yPosI = i%g.nbColonne();
 				int xPosJ = j/g.nbColonne();
@@ -26,10 +28,46 @@ public class PlusCourtChemin {
 				
 				//System.out.print("("+xPosI +"," + yPosI+") // ("+xPosJ +"," + yPosJ+")");
 				
-				d[i][j] = g.getSommet(xPosI,yPosI).getFlightDistTo(g.getSommet(xPosJ,yPosJ));
+				c[i][j] = g.getSommet(xPosI,yPosI).getFlightDistTo(g.getSommet(xPosJ,yPosJ));
 				
-				//System.out.println("\t Distance : "+d[i][j]);
+				System.out.print("\t"+c[i][j]);
 			}
+			System.out.print("\n");
+		}
+		
+		//d pour : l'ensemble des arêtes, entre le point i (x,y que l'on calcul) et j (x,y que l'on calcul)
+		double[][] d = new double[n][n];
+		for (int i=0; i<n; i++) {
+			for (int j=0; j<n; j++) {
+				int xPosI = i/g.nbColonne();
+				int yPosI = i%g.nbColonne();
+				int xPosJ = j/g.nbColonne();
+				int yPosJ = j%g.nbColonne();
+				
+				System.out.print("("+xPosI +"," + yPosI+") // ("+xPosJ +"," + yPosJ+")");
+				
+				if((xPosJ<=xPosI+1 && xPosJ>=xPosI-1) && (yPosJ<=yPosI+1 && yPosJ>=yPosI-1)) {
+					if( (xPosI == xPosJ && yPosI == yPosJ) ) {
+						d[i][j] = 0;
+					}else {
+						Type typeSommetActuel = g.getSommet( xPosI, yPosI ).getType();
+						if(typeSommetActuel.equals(Type.OBSTACLE) ) {
+							d[i][j] = 0;
+						}else {
+							Type typeSommetActuel_J = g.getSommet( xPosJ, yPosJ ).getType();
+							if(typeSommetActuel_J.equals(Type.OBSTACLE) ) {
+								d[i][j] = 0;
+							}else {
+								d[i][j] = 1;
+							}
+						}
+					}
+				}else {
+					d[i][j] = 0;
+				}
+				System.out.print("\t"+ d[i][j]);
+			}
+			System.out.print("\n");
 		}
 		
 
@@ -38,53 +76,73 @@ public class PlusCourtChemin {
 			IloCplex cplex = new IloCplex();
 			
 			// variables
-			IloNumVar[][] x = new IloNumVar[g.nbLigne()][];
-			for (int i=0; i<g.nbLigne(); i++) {
-				x[i] = cplex.boolVarArray(g.nbColonne());
+			IloNumVar[][] x = new IloNumVar[n][];
+			for (int i=0; i<n; i++) {
+				x[i] = cplex.boolVarArray(n);
 			}
-			IloNumVar[] u = cplex.numVarArray(g.nbLigne(), 0, Double.MAX_VALUE);
+			IloNumVar[] u = cplex.numVarArray(n, 0, Double.MAX_VALUE);
+			
 			
 			//Objective
 			IloLinearNumExpr obj = cplex.linearNumExpr();
-			for (int i=0; i<g.nbLigne(); i++) {
-				for (int j=0; j<g.nbColonne(); j++) {
+			for (int i=0; i<n; i++) {
+				for (int j=0; j<n; j++) {
 					if(j!=i) {
-						obj.addTerm(d[i][j], x[i][j]);
+						obj.addTerm(c[i][j], x[i][j]);
 					}
 				}
 			}
-			cplex.minimize(obj);
+			cplex.addMinimize(obj);
 			
-			//Contrainte
-			for (int j=0; j<g.nbColonne(); j++) {
+			//Contraintes
+			/*
+			for (int j=0; j<n; j++) {
 				IloLinearNumExpr expr = cplex.linearNumExpr();
-				for (int i=0; i<g.nbLigne(); i++) {
+				for (int i=0; i<n; i++) {
 					if(i!=j) {
 						expr.addTerm(1.0, x[i][j]);
 					}
 				}
-				cplex.addEq(expr, 1.0);
+				cplex.addLe(expr, 1.0);
 			}
 			
-			for (int i=0; i<g.nbLigne(); i++) {
+			for (int i=0; i<n; i++) {
 				IloLinearNumExpr expr = cplex.linearNumExpr();
-				for (int j=0; j<g.nbColonne(); j++) {
+				for (int j=0; j<n; j++) {
 					if(i!=j) {
 						expr.addTerm(1.0, x[i][j]);
 					}
 				}
-				cplex.addEq(expr, 1.0);
+				cplex.addLe(expr, 1.0);
 			}
+			IloLinearNumExpr expr = cplex.linearNumExpr();
+			expr.addTerm(1.0, x[0][1]);
+			cplex.addEq(expr, 1.0);
+			*/
 			
+			System.out.println(g);
 			
-			for (int i=1; i<g.nbLigne(); i++) {
-				for (int j=1; j<g.nbColonne(); j++) {
+			for (int i=0; i<n; i++) {
+				IloLinearNumExpr expr = cplex.linearNumExpr();
+				for (int j=0; j<n; j++) {
 					if(i!=j) {
-						IloLinearNumExpr expr = cplex.linearNumExpr();
-						expr.addTerm(1.0, u[i]);
-						expr.addTerm(-1.0, u[j]);
-						expr.addTerm(g.nbLigne()-1, x[i][j]);
-						cplex.addLe(expr, g.nbLigne()-2);
+						expr.addTerm(d[i][j], x[i][j]);
+					}
+				}
+				for (int j=0; j<n; j++) {
+					if(i!=j) {
+						expr.addTerm(-1*d[i][j], x[j][i]);
+					}
+				}
+				//System.out.println("i = " + (int)i/g.nbColonne() + "\nj = " + (int)i%g.nbColonne() + "\n");
+				Type typeSommetActuel = g.getSommet( (int)i/g.nbColonne(), (int)i%g.nbColonne() ).getType();
+				if(typeSommetActuel.equals(Type.START) ) {
+					cplex.addEq(expr, 1);
+				}else {
+					if(typeSommetActuel.equals(Type.END)) {
+						cplex.addEq(expr, -1);
+					}else {
+						cplex.addEq(expr, 0);
 					}
 				}
 			}
@@ -93,17 +151,21 @@ public class PlusCourtChemin {
 			// solve
 			if (cplex.solve()) {
 				System.out.println("\nobj = "+cplex.getObjValue());
-				/*for (int i=0; i<n; i++) {
-					System.out.println("x"+i+"\t= "+cplex.getValue(x[i][0]));
-					
-				}
-				
-				/*System.out.println("x   = "+cplex.getValue(x));
-				System.out.println("y   = "+cplex.getValue(y));
-				/*for (int i=0;i<constraints.size();i++) {
-					System.out.println("dual constraint "+(i+1)+"  = "+cplex.getDual(constraints.get(i)));
-					System.out.println("slack constraint "+(i+1)+" = "+cplex.getSlack(constraints.get(i)));
-				}*/
+				System.out.println("\n");
+        		System.out.println("Status de la Solution = "+ cplex.getStatus());
+        		System.out.println("Distance Minimal = " + cplex.getObjValue() + " ");
+        		System.out.println();
+        		
+        		for(int i = 0; i<x.length; i++) {
+        		    for(int j = 0 ; j < x[i].length; j ++) {
+        		        if(i != j) {
+        		        	System.out.print(cplex.getValue(x[i][j]) + "\t");
+        		        }else {
+        		        	System.out.print("---\t");
+        		        } 
+        		    }
+        		    System.out.print("\n");
+        		}
 			}
 			else {
 				System.out.println("Model not solved");

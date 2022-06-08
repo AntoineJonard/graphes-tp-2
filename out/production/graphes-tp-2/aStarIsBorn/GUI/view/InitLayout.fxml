@@ -19,7 +19,7 @@
       </Label>
       <HBox alignment="CENTER">
          <children>
-            <Label text="Dimensions">
+            <Label text="Dimensions (max 1000x1000)">
                <font>
                   <Font size="17.0" />
                </font>

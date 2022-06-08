@@ -64,8 +64,10 @@ public class AStarController implements A_StarListener {
                 }
 
                 rectangle.setFill(fill);
-                rectangle.setWidth(700./graphe.nbColonne());
-                rectangle.setHeight(700./graphe.nbLigne());
+                double width = 700./graphe.nbColonne();
+                double heigth = 700./graphe.nbLigne();
+                rectangle.setWidth(Math.min(width,heigth));
+                rectangle.setHeight(Math.min(width,heigth));
 
                 grid.add(rectangle,col,row);
                 cells.get(row).add(rectangle);

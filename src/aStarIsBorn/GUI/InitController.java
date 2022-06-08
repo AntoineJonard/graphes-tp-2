@@ -2,8 +2,11 @@ package aStarIsBorn.GUI;
 
 import aStarIsBorn.Heuristique;
 import graphe.Graphe;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
 
@@ -37,15 +40,33 @@ public class InitController {
 
     @FXML
     public void start(){
-        main.setGraphe(Graphe.getRandomGraphe(
-                Integer.parseInt(nbRows.getText()),
-                Integer.parseInt(nbCols.getText()),
-                Integer.parseInt(x1.getText()),
-                Integer.parseInt(y1.getText()),
-                Integer.parseInt(x2.getText()),
-                Integer.parseInt(y2.getText())
-                ));
-        main.showResolution();
+
+        try {
+            int rows = Integer.parseInt(nbRows.getText());
+            int cols = Integer.parseInt(nbCols.getText());
+            int xs = Integer.parseInt(x1.getText());
+            int ys = Integer.parseInt(y1.getText());
+            int xe = Integer.parseInt(x2.getText());
+            int ye = Integer.parseInt(y2.getText());
+
+            if (
+                    rows <= 0 || rows > 1000 || cols <= 0 || cols > 1000
+                    || xs <= 0 || xs >= cols || ys <= 0 || ys >= rows || xe <= 0 || xe >= cols || ye <= 0 || ye >= rows
+            ) {
+                throw new NumberFormatException();
+            }
+
+            main.setGraphe(Graphe.getRandomGraphe(
+                    rows,cols,xs,ys,xe,ye
+            ));
+            main.showResolution();
+
+        }catch (NumberFormatException e){
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Wrong format for entries", ButtonType.OK);
+                alert.showAndWait();
+            });
+        }
     }
 
     @FXML

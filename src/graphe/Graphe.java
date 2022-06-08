@@ -26,7 +26,7 @@ public class Graphe {
 		for (int row = 0 ; row < rows ; row ++){
 			graphe.sommets.add(new ArrayList<>());
 			for (int col = 0 ; col < cols ; col++){
-				Sommet current = new Sommet(col, row,(double)random.nextInt()/(double)Integer.MAX_VALUE < 0.4 ? Type.COMMON : Type.OBSTACLE);
+				Sommet current = new Sommet(col, row, Math.random() < 0.50 ? Type.COMMON : Type.OBSTACLE);
 				if (current.sameCoord(start)){
 					graphe.sommets.get(row).add(start);
 					graphe.start = start;

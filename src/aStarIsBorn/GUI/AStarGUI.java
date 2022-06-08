@@ -1,5 +1,6 @@
 package aStarIsBorn.GUI;
 
+import aStarIsBorn.Heuristique;
 import graphe.Graphe;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +20,8 @@ public class AStarGUI extends Application {
     private VBox aStarLayout;
 
     private Graphe graphe;
+
+    private Heuristique selectedHeuristique = Heuristique.EUCLIDEAN;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -81,5 +84,13 @@ public class AStarGUI extends Application {
 
     public void setGraphe(Graphe graphe) {
         this.graphe = graphe;
+    }
+
+    public Heuristique getSelectedHeuristique() {
+        return selectedHeuristique;
+    }
+
+    public void setSelectedHeuristique(Heuristique selectedHeuristique) {
+        this.selectedHeuristique = selectedHeuristique;
     }
 }

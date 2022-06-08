@@ -8,11 +8,13 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.MenuButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,8 +116,10 @@ public class AStarController implements A_StarListener {
                 });
             });
         }else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "No solution for this graphe", ButtonType.OK);
-            alert.showAndWait();
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "No solution for this graphe", ButtonType.OK);
+                alert.showAndWait();
+            });
         }
     }
 }

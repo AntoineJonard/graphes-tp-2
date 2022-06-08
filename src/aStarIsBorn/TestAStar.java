@@ -1,5 +1,6 @@
 package aStarIsBorn;
 
+import java.awt.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -10,6 +11,7 @@ import graphe.Sommet;
 public class TestAStar {
 
 	public static void main(String[] args) {
+
 		Graphe g = new Graphe("reseau_5_10_1.txt");
 		System.out.println(g);
 		A_Star aStar = new A_Star(Heuristique.EUCLIDEAN);

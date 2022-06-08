@@ -81,6 +81,10 @@ public class Sommet {
 		return type == other.type && x == other.x && y == other.y;
 	}
 
+	boolean sameCoord(Sommet other){
+		return x == other.getX() && y == other.getY();
+	}
+
 	@Override
 	public String toString() {
 		return type+" [" + x + ", " + y + "]";

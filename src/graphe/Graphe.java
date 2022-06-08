@@ -7,12 +7,46 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Graphe {
 	
 	private List<List<Sommet>> sommets;
 	private Sommet start;
 	private Sommet goal;
+
+	public static Graphe getRandomGraphe(int rows, int cols, int x1, int y1, int x2, int y2){
+
+		Random random = new Random();
+
+		Sommet start = new Sommet(x1,y1,Type.START);
+		Sommet end = new Sommet(x2,y2,Type.END);
+
+		Graphe graphe = new Graphe();
+		for (int row = 0 ; row < rows ; row ++){
+			graphe.sommets.add(new ArrayList<>());
+			for (int col = 0 ; col < cols ; col++){
+				Sommet current = new Sommet(col, row,(double)random.nextInt()/(double)Integer.MAX_VALUE < 0.4 ? Type.COMMON : Type.OBSTACLE);
+				if (current.sameCoord(start)){
+					graphe.sommets.get(row).add(start);
+					graphe.start = start;
+				}else if (current.sameCoord(end)){
+					graphe.sommets.get(row).add(end);
+					graphe.goal = end;
+				}else {
+					graphe.sommets.get(row).add(current);
+				}
+			}
+		}
+
+		for (List<Sommet> line : graphe.sommets){
+			for (Sommet sommet : line){
+				sommet.setAdjacents(graphe.getAdjacentsTo(sommet));
+			}
+		}
+
+		return graphe;
+	}
 
 	public Graphe(String fileName) {
 		super();
@@ -68,14 +102,15 @@ public class Graphe {
 				sommet.setAdjacents(getAdjacentsTo(sommet));
 			}
 		}
-		
-        
+	}
+
+	private Graphe(){
+		sommets = new ArrayList<>();
 	}
 
 	public List<List<Sommet>> getSommets() {
 		return sommets;
 	}
-
 	public Sommet getSommet(int x, int y) {
 		try {
 			return sommets.get(y).get(x);
@@ -140,6 +175,6 @@ public class Graphe {
 		
 		return sb.toString();
 	}
-	
-	
+
+
 }

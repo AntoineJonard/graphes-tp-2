@@ -24,12 +24,14 @@ public class A_Star {
 	
 	Heuristique heuristique;
 
+    A_StarListener listener;
+
     public A_Star(Heuristique heuristique) {
 		super();
 		this.heuristique = heuristique;
 	}
 
-	List<Sommet> resolve(Graphe g){
+	public List<Sommet> resolve(Graphe g){
 
         Map<Sommet,AStarSommetInfo> mappedSommets = new HashMap<>();
 
@@ -53,8 +55,15 @@ public class A_Star {
         while (!discoveredNodes.isEmpty()){
             Sommet current = discoveredNodes.poll();
 
-            if (current == g.getGoal())
-                return getPath(mappedSommets, current);
+            if (listener != null){
+                listener.onNewCurrent(current);
+            }
+
+            if (current == g.getGoal()){
+                List<Sommet> solution = getPath(mappedSommets, current);
+                listener.onResolutionFound(solution);
+                return solution;
+            }
 
             for (Sommet adjacent : current.getAccessibleAdjacents()){
                 double newMinDist = mappedSommets.get(current).minDist + current.getFlightDistTo(adjacent);
@@ -65,10 +74,14 @@ public class A_Star {
 
                     if (!discoveredNodes.contains(adjacent)){
                         discoveredNodes.add(adjacent);
+                        if (listener != null){
+                            listener.onNewDiscovered(adjacent);
+                        }
                     }
                 }
             }
         }
+        listener.onResolutionFound(null);
         return null;
     }
 
@@ -82,7 +95,9 @@ public class A_Star {
         }
         return path;
     }
-
+    public void setListener(A_StarListener listener) {
+        this.listener = listener;
+    }
 
     static class AStarSommetInfo implements Comparable<AStarSommetInfo>{
         Sommet from;
@@ -100,6 +115,6 @@ public class A_Star {
             return Double.compare(this.hDist,o.hDist);
         }
     }
-   
+
 }
 

@@ -4,7 +4,7 @@ import cplex.*;
 public class Main {
 
 	public static void main(String[] args) {
-		Graphe g = new Graphe("reseau_10_10_1.txt");
+		Graphe g = new Graphe("reseau_5_5_1.txt");
 		System.out.println(g);
 		
 
@@ -22,9 +22,14 @@ public class Main {
 		
 		VoyageurCommerce.solveMe(10);
 		
+		System.out.println("-----------------------------------------------");
+		System.out.println("===============================================");
+		System.out.println("-----------------------------------------------");
+		
+		PlusCourtChemin.solveMe(g);
+		
 		System.out.println("FIN");
 		
-		//PlusCourtChemin.solveMe(g);
 		
 	}
 

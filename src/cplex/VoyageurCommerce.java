@@ -74,6 +74,19 @@ public class VoyageurCommerce {
 				cplex.addEq(expr, 1.0);
 			}
 			
+			//Permet de ne pas prendre en compte multiple boucles pour le problème. Ainsi obtenir qu'une seul boucle
+			for (int i=1; i<n; i++) {
+				for (int j=1; j<n; j++) {
+					if(i!=j) {
+						IloLinearNumExpr expr = cplex.linearNumExpr();
+						expr.addTerm(1.0, u[i]);
+						expr.addTerm(-1.0, u[j]);
+						expr.addTerm(n-1, x[i][j]);
+						cplex.addLe(expr, n-2);
+					}
+				}
+			}
+			
 			
 			
 			//Résolution

@@ -12,11 +12,13 @@ import java.util.List;
 public class PlusCourtChemin {
 	public static void solveMe(Graphe g) {
 		// g est le graphe
+		System.out.println(g); //affichage
 		
 		// définition de "n" le nombre de sommets dans le graph
 		int n = g.nbColonne() * g.nbLigne();		
 		
 		//Constante 
+		System.out.println("Pour le graph des couts en i et j : ");
 		//c pour : le cout/la distance, entre le point i (x,y que l'on calcul) et j (x,y que l'on calcul)
 		double[][] c = new double[n][n];
 		for (int i=0; i<n; i++) {
@@ -30,11 +32,12 @@ public class PlusCourtChemin {
 				
 				c[i][j] = g.getSommet(xPosI,yPosI).getFlightDistTo(g.getSommet(xPosJ,yPosJ));
 				
-				//System.out.print("\t"+c[i][j]);
+				System.out.print("\t"+c[i][j]); //affichage
 			}
-			//System.out.print("\n");
+			System.out.print("\n"); //affichage
 		}
 		
+		System.out.println("Pour le graph des déplacement possible en i et j : ");
 		//d pour : l'ensemble des arêtes, entre le point i (x,y que l'on calcul) et j (x,y que l'on calcul)
 		double[][] d = new double[n][n];
 		for (int i=0; i<n; i++) {
@@ -65,9 +68,9 @@ public class PlusCourtChemin {
 				}else {
 					d[i][j] = 0;
 				}
-				//System.out.print("\t"+ d[i][j]);
+				System.out.print("\t"+ d[i][j]); //affichage
 			}
-			//System.out.print("\n");
+			System.out.print("\n"); //affichage
 		}
 		
 
@@ -94,28 +97,6 @@ public class PlusCourtChemin {
 			cplex.addMinimize(obj);
 			
 			//Contraintes
-			
-			for (int j=0; j<n; j++) {
-				IloLinearNumExpr expr = cplex.linearNumExpr();
-				for (int i=0; i<n; i++) {
-					if(i!=j) {
-						expr.addTerm(1.0, x[i][j]);
-					}
-				}
-				cplex.addLe(expr, 1.0);
-			}
-			
-			for (int i=0; i<n; i++) {
-				IloLinearNumExpr expr = cplex.linearNumExpr();
-				for (int j=0; j<n; j++) {
-					if(i!=j) {
-						expr.addTerm(1.0, x[i][j]);
-					}
-				}
-				cplex.addLe(expr, 1.0);
-			}
-			
-			
 			//System.out.println(g);
 			
 			for (int i=0; i<n; i++) {
@@ -156,7 +137,7 @@ public class PlusCourtChemin {
         		System.out.println("Distance Minimal = " + cplex.getObjValue() + " ");
         		System.out.println();
         		
-        		/*//AFFICHAGE DU RESULTAT DE LA VARIABLE X TROUVER SOUS CPLEX CORRESPONDANT SI ON SE DEPLACE DE LA VILLE I VERS J
+        		//AFFICHAGE DU RESULTAT DE LA VARIABLE X TROUVER SOUS CPLEX CORRESPONDANT SI ON SE DEPLACE DE LA VILLE I VERS J
         		for(int i = 0; i<x.length; i++) {
         		    for(int j = 0 ; j < x[i].length; j ++) {
         		        if(i != j) {
@@ -166,7 +147,7 @@ public class PlusCourtChemin {
         		        } 
         		    }
         		    System.out.print("\n");
-        		}*/
+        		}
         		
         		
         		int arriver = 0;

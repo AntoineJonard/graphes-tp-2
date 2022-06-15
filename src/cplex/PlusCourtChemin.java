@@ -94,7 +94,7 @@ public class PlusCourtChemin {
 			cplex.addMinimize(obj);
 			
 			//Contraintes
-			/*
+			
 			for (int j=0; j<n; j++) {
 				IloLinearNumExpr expr = cplex.linearNumExpr();
 				for (int i=0; i<n; i++) {
@@ -114,10 +114,7 @@ public class PlusCourtChemin {
 				}
 				cplex.addLe(expr, 1.0);
 			}
-			IloLinearNumExpr expr = cplex.linearNumExpr();
-			expr.addTerm(1.0, x[0][1]);
-			cplex.addEq(expr, 1.0);
-			*/
+			
 			
 			//System.out.println(g);
 			
@@ -134,7 +131,7 @@ public class PlusCourtChemin {
 					}
 				}
 				//System.out.println("i = " + (int)i/g.nbColonne() + "\nj = " + (int)i%g.nbColonne() + "\n");
-				Type typeSommetActuel = g.getSommet( (int)i/g.nbColonne(), (int)i%g.nbColonne() ).getType();
+				Type typeSommetActuel = g.getSommet( (int)i%g.nbColonne(), (int)i/g.nbColonne() ).getType();
 				if(typeSommetActuel.equals(Type.START) ) {
 					cplex.addEq(expr, 1);
 				}else {
@@ -147,9 +144,13 @@ public class PlusCourtChemin {
 			}
 			
 			
+			//Enlève l'affichage de CPLEX
+			cplex.setParam(IloCplex.Param.Simplex.Display, 0);
+			
+			
 			// solve
 			if (cplex.solve()) {
-				System.out.println("\nobj = "+cplex.getObjValue());
+				//System.out.println("\nobj = "+cplex.getObjValue());
 				System.out.println("\n");
         		System.out.println("Status de la Solution = "+ cplex.getStatus());
         		System.out.println("Distance Minimal = " + cplex.getObjValue() + " ");
@@ -167,8 +168,9 @@ public class PlusCourtChemin {
         		    System.out.print("\n");
         		}*/
         		
+        		
         		int arriver = 0;
-        		int point = g.getStart().getX() * g.getStart().getY();
+        		int point = g.getStart().getX() + g.getStart().getY() * g.nbColonne() ;
         		while(arriver == 0) {
         			if(g.getSommet(point % g.nbColonne(), point / g.nbColonne()).getType().equals(Type.END)) {
         				arriver = 1;

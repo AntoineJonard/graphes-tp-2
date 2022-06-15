@@ -19,20 +19,24 @@ public class VoyageurCommerce {
 			yPos[i] = Math.random()*t;
 		}
 		
-		double[][] c = new double[n][n];
-		for (int i=0; i<n; i++) {
-			for (int j=0; j<n; j++) {
-				c[i][j] = Math.sqrt(Math.pow(xPos[i]-xPos[j], 2) + Math.pow(yPos[i]-yPos[j], 2) );
-			}
-		}
-		
 		System.out.println("Pour le graph du voyageur de commerce étudié : ");
 		//AFFICHAGE DU GRAPH
 		for (int i=0; i<n; i++) {
 			for (int j=0; j<n; j++) {
-				System.out.print(" (" + xPos[i] + "," + yPos[j] + ") ");
+				System.out.print(" (" + xPos[i] + "," + yPos[j] + ") "); //affichage
 			}
-			System.out.print("\n");
+			System.out.print("\n"); //affichage
+		}
+		
+		System.out.println("Pour le graph du cout (distance) de commerce étudié : ");
+		//AFFICHAGE DU GRAPH DE COUT
+		double[][] c = new double[n][n];
+		for (int i=0; i<n; i++) {
+			for (int j=0; j<n; j++) {
+				c[i][j] = Math.sqrt(Math.pow(xPos[i]-xPos[j], 2) + Math.pow(yPos[i]-yPos[j], 2) );
+				System.out.print("\t"+ c[i][j]); //affichage
+			}
+			System.out.print("\n"); //affichage
 		}
 		
 		System.out.println("Pour le graph de liaison de commerce étudié : ");
@@ -44,9 +48,9 @@ public class VoyageurCommerce {
 				if(rand <= p*100) {
 					d[i][j]=1;
 				}
-				System.out.print("\t"+ d[i][j]);
+				System.out.print("\t"+ d[i][j]); //affichage
 			}
-			System.out.print("\n");
+			System.out.print("\n"); //affichage
 		}
 		
 		

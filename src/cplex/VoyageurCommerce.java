@@ -151,9 +151,7 @@ public class VoyageurCommerce {
         			if(point == 0) {
         				arriver ++;
         			}
-        			
         		}while(arriver == 0);
-        		
         		
         	}
 			

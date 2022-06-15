@@ -80,6 +80,13 @@ public class A_Star {
             }
         }
         if (listener != null){
+
+            long endTime = System.currentTimeMillis();
+
+            System.out.println("Resolution time (ms) : " + (endTime - startTime));
+
+            writeSolution(null, g);
+
             listener.onResolutionFound(null);
         }
         return null;
@@ -115,8 +122,9 @@ public class A_Star {
 
     private void writeSolution(List<Sommet> solution, Graphe graphe){
         File solutionFile = new File("src/data/sol_"+graphe.getName());
+        String stringSolution = solution != null ? solutionToString(solution) : "No path from "+graphe.getStart()+ " to "+graphe.getGoal();
         try (PrintStream out = new PrintStream(solutionFile)) {
-            out.print(solutionToString(solution));
+            out.print(stringSolution);
         }catch (Exception e){
             System.out.println("Can't write to file");
         }

@@ -14,6 +14,7 @@ import java.util.List;
 public class PlusCourtChemin {
 	public static void solveMe(Graphe g) {
 		// g est le graphe
+		System.out.println("Pour le graph : ");
 		System.out.println(g); //affichage
 		
 		// définition de "n" le nombre de sommets dans le graph
@@ -132,7 +133,10 @@ public class PlusCourtChemin {
 			
 			
 			// solve
+			long startTime = System.currentTimeMillis();
 			if (cplex.solve()) {
+				long endTime = System.currentTimeMillis();
+				System.out.println("Resolution time (ms) : " + (endTime - startTime));
 				//System.out.println("\nobj = "+cplex.getObjValue());
 				System.out.println("\n");
         		System.out.println("Status de la Solution = "+ cplex.getStatus());

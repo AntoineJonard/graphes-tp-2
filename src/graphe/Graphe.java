@@ -15,6 +15,8 @@ public class Graphe {
 	private Sommet start;
 	private Sommet goal;
 
+	private String name;
+
 	public static Graphe getRandomGraphe(int rows, int cols, int x1, int y1, int x2, int y2){
 
 		Random random = new Random();
@@ -23,6 +25,9 @@ public class Graphe {
 		Sommet end = new Sommet(x2,y2,Type.END);
 
 		Graphe graphe = new Graphe();
+
+		graphe.name = "reseau_"+rows+"_"+cols+"_random.txt";
+
 		for (int row = 0 ; row < rows ; row ++){
 			graphe.sommets.add(new ArrayList<>());
 			for (int col = 0 ; col < cols ; col++){
@@ -50,6 +55,9 @@ public class Graphe {
 
 	public Graphe(String fileName) {
 		super();
+
+		name = fileName;
+
 		sommets = new ArrayList<>();
 		
         File file = new File("src/data/"+fileName);
@@ -176,5 +184,7 @@ public class Graphe {
 		return sb.toString();
 	}
 
-
+	public String getName() {
+		return name;
+	}
 }

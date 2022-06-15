@@ -9,10 +9,10 @@ public class TestAStar {
 
 	public static void main(String[] args) {
 
-		Graphe g = new Graphe("reseau_50_50_1.txt");
+		Graphe g = new Graphe("reseau_5_5_1.txt");
 		System.out.println(g);
 
-		A_Star aStar = new A_Star(Heuristique.EUCLIDEAN);
+		A_Star aStar = new A_Star(Heuristique.MANHATTAN);
 
 		List<Sommet> solution = aStar.resolve(g);
 		if (solution != null) {

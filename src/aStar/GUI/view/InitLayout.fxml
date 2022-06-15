@@ -109,15 +109,6 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </VBox.margin>
       </HBox>
-      <MenuButton fx:id="heuristique" mnemonicParsing="false" text="Heuristique">
-        <items>
-          <MenuItem id="euclidian" mnemonicParsing="false" onAction="#eucSelected" text="Euclidian" />
-          <MenuItem id="manhattan" mnemonicParsing="false" onAction="#manSelected" text="Manhattan" />
-        </items>
-         <font>
-            <Font size="20.0" />
-         </font>
-      </MenuButton>
       <Separator prefWidth="200.0">
          <VBox.margin>
             <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
@@ -141,6 +132,16 @@
             <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
          </VBox.margin>
       </Separator>
+      <MenuButton fx:id="heuristique" mnemonicParsing="false" text="Heuristique">
+        <items>
+          <MenuItem id="euclidian" mnemonicParsing="false" onAction="#eucSelected" text="Euclidian" />
+          <MenuItem id="manhattan" mnemonicParsing="false" onAction="#manSelected" text="Manhattan" />
+            <MenuItem mnemonicParsing="false" onAction="#nullSelected" text="h(x) = 0" />
+        </items>
+         <font>
+            <Font size="20.0" />
+         </font>
+      </MenuButton>
       <Button fx:id="start" mnemonicParsing="false" onAction="#start" text="Find &quot;Le plus court chemin&quot;">
          <font>
             <Font size="18.0" />

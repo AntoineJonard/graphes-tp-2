@@ -94,6 +94,13 @@ public class InitController {
     }
 
     @FXML
+    public void nullSelected(ActionEvent e){
+        main.setSelectedHeuristique(Heuristique.NULL);
+        heuristique.setText("h(x) = 0");
+    }
+
+
+    @FXML
     public void find(){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select attachment");

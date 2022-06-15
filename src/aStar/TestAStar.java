@@ -9,7 +9,7 @@ public class TestAStar {
 
 	public static void main(String[] args) {
 
-		Graphe g = new Graphe("reseau_5_5_1.txt");
+		Graphe g = new Graphe("reseau_20_20_1.txt");
 		System.out.println(g);
 
 		A_Star aStar = new A_Star(Heuristique.MANHATTAN);

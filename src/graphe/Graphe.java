@@ -17,6 +17,16 @@ public class Graphe {
 
 	private String name;
 
+	/**
+	 *
+	 * @param rows nombre de lignes
+	 * @param cols nombre de colonnes
+	 * @param x1 x du sommet de départ
+	 * @param y1 y du sommet de départ
+	 * @param x2 x du sommet d'arrivée
+	 * @param y2 y du sommet d'arrivée
+	 * @return le graphe aléatoire crée
+	 */
 	public static Graphe getRandomGraphe(int rows, int cols, int x1, int y1, int x2, int y2){
 
 		Random random = new Random();
@@ -31,7 +41,7 @@ public class Graphe {
 		for (int row = 0 ; row < rows ; row ++){
 			graphe.sommets.add(new ArrayList<>());
 			for (int col = 0 ; col < cols ; col++){
-				Sommet current = new Sommet(col, row, Math.random() < 0.50 ? Type.COMMON : Type.OBSTACLE);
+				Sommet current = new Sommet(col, row, Math.random() < 0.40 ? Type.COMMON : Type.OBSTACLE);
 				if (current.sameCoord(start)){
 					graphe.sommets.get(row).add(start);
 					graphe.start = start;
@@ -53,6 +63,10 @@ public class Graphe {
 		return graphe;
 	}
 
+	/**
+	 * Créer un graphe en fonction d'un fichier
+	 * @param fileName le nom du fichier dans le répertoire /src/data
+	 */
 	public Graphe(String fileName) {
 		super();
 

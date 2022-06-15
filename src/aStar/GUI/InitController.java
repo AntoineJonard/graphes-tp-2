@@ -1,6 +1,6 @@
-package aStarIsBorn.GUI;
+package aStar.GUI;
 
-import aStarIsBorn.Heuristique;
+import aStar.Heuristique;
 import graphe.Graphe;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;

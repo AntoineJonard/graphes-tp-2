@@ -1,4 +1,4 @@
-package aStarIsBorn;
+package aStar;
 
 import java.util.function.BiFunction;
 

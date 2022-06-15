@@ -1,4 +1,4 @@
-package aStarIsBorn;
+package aStar;
 
 import graphe.Sommet;
 

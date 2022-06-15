@@ -1,8 +1,8 @@
-package aStarIsBorn.GUI;
+package aStar.GUI;
 
-import aStarIsBorn.A_Star;
-import aStarIsBorn.A_StarListener;
-import aStarIsBorn.Heuristique;
+import aStar.A_Star;
+import aStar.A_StarListener;
+import aStar.Heuristique;
 import graphe.Graphe;
 import graphe.Sommet;
 

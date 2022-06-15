@@ -1,20 +1,18 @@
-package aStarIsBorn.GUI;
+package aStar.GUI;
 
-import aStarIsBorn.A_StarListener;
-import aStarIsBorn.Heuristique;
+import aStar.A_StarListener;
+import aStar.Heuristique;
 import graphe.Graphe;
 import graphe.Sommet;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.MenuButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 

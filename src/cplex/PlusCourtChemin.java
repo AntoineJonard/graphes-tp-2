@@ -5,6 +5,8 @@ import graphe.*;
 import ilog.concert.*;
 import ilog.cplex.*;
 
+import java.io.File;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import java.util.List;
 public class PlusCourtChemin {
 	public static void solveMe(Graphe g) {
 		// g est le graphe
+		System.out.println("Pour le graph : ");
 		System.out.println(g); //affichage
 		
 		// définition de "n" le nombre de sommets dans le graph
@@ -130,7 +133,10 @@ public class PlusCourtChemin {
 			
 			
 			// solve
+			long startTime = System.currentTimeMillis();
 			if (cplex.solve()) {
+				long endTime = System.currentTimeMillis();
+				System.out.println("Resolution time (ms) : " + (endTime - startTime));
 				//System.out.println("\nobj = "+cplex.getObjValue());
 				System.out.println("\n");
         		System.out.println("Status de la Solution = "+ cplex.getStatus());
@@ -152,11 +158,12 @@ public class PlusCourtChemin {
         		
         		int arriver = 0;
         		int point = g.getStart().getX() + g.getStart().getY() * g.nbColonne() ;
+        		String stringSolution = ""; //Pour l'écriture dans un fichier
         		while(arriver == 0) {
         			if(g.getSommet(point % g.nbColonne(), point / g.nbColonne()).getType().equals(Type.END)) {
         				arriver = 1;
         			}else {
-        				System.out.print("(" + point % g.nbColonne() + "," + point / g.nbColonne() + ") -> ");
+        				stringSolution += ("(" + point % g.nbColonne() + "," + point / g.nbColonne() + ") -> ");
         				for(int i=0; i<x[point].length; i++) {
         					if(point != i ) {
         						if( cplex.getValue(x[point][i]) == 1.0 ) {
@@ -165,9 +172,18 @@ public class PlusCourtChemin {
             					}
         					}
         				}
-        				System.out.print("(" + point % g.nbColonne() + "," + point / g.nbColonne() + ")\n");
+        				stringSolution += ("(" + point % g.nbColonne() + "," + point / g.nbColonne() + ")\n");
         			}
         		}
+        		System.out.print(stringSolution);
+        		
+        		//Ecriture de la solution dans un fichier
+                File solutionFile = new File("src/data/sol_"+g.getName());
+                try (PrintStream out = new PrintStream(solutionFile)) {
+                    out.print(stringSolution);
+                }catch (Exception e){
+                    System.out.println("Can't write to file");
+                }
         				
 			}
 			else {

@@ -140,7 +140,7 @@ public class VoyageurCommerce {
         			System.out.print("" + point  + " -> ");
     				for(int i=0; i<x[point].length; i++) {
     					if(point != i ) {
-    						if( cplex.getValue(x[point][i]) == 1.0 ) {
+    						if( Math.round(cplex.getValue(x[point][i])) == 1.0 ) {
         						point = i;
         						break;
         					}
@@ -151,9 +151,7 @@ public class VoyageurCommerce {
         			if(point == 0) {
         				arriver ++;
         			}
-        			
         		}while(arriver == 0);
-        		
         		
         	}
 			

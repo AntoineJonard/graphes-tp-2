@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -17,6 +18,11 @@
             <Font size="71.0" />
          </font>
       </Label>
+      <Separator prefWidth="200.0">
+         <VBox.margin>
+            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+         </VBox.margin>
+      </Separator>
       <HBox alignment="CENTER">
          <children>
             <Label text="Dimensions (max 1000x1000)">
@@ -112,6 +118,29 @@
             <Font size="20.0" />
          </font>
       </MenuButton>
+      <Separator prefWidth="200.0">
+         <VBox.margin>
+            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+         </VBox.margin>
+      </Separator>
+      <Label text="Depuis un fichier ">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Button fx:id="filename" mnemonicParsing="false" onAction="#find" text="...">
+         <font>
+            <Font size="19.0" />
+         </font>
+         <VBox.margin>
+            <Insets top="15.0" />
+         </VBox.margin>
+      </Button>
+      <Separator prefWidth="200.0">
+         <VBox.margin>
+            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+         </VBox.margin>
+      </Separator>
       <Button fx:id="start" mnemonicParsing="false" onAction="#start" text="Find &quot;Le plus court chemin&quot;">
          <font>
             <Font size="18.0" />

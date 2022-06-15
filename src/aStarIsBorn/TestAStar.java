@@ -12,10 +12,13 @@ public class TestAStar {
 
 	public static void main(String[] args) {
 
-		Graphe g = new Graphe("reseau_5_10_1.txt");
+		Graphe g = new Graphe("reseau_50_50_1.txt");
 		System.out.println(g);
 		A_Star aStar = new A_Star(Heuristique.EUCLIDEAN);
+		long startTime = System.currentTimeMillis();
 		List<Sommet> solution = aStar.resolve(g);
+		long endTime = System.currentTimeMillis();
+		System.out.println("resolve time (ms) : " + (endTime - startTime));
 		if (solution != null) {
 			Collections.reverse(solution);
 			StringBuilder sb = new StringBuilder();

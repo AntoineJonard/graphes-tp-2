@@ -61,7 +61,9 @@ public class A_Star {
 
             if (current == g.getGoal()){
                 List<Sommet> solution = getPath(mappedSommets, current);
-                listener.onResolutionFound(solution);
+                if (listener != null){
+                    listener.onResolutionFound(solution);
+                }
                 return solution;
             }
 
@@ -81,7 +83,9 @@ public class A_Star {
                 }
             }
         }
-        listener.onResolutionFound(null);
+        if (listener != null){
+            listener.onResolutionFound(null);
+        }
         return null;
     }
 

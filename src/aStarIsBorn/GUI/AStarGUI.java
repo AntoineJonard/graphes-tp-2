@@ -93,4 +93,8 @@ public class AStarGUI extends Application {
     public void setSelectedHeuristique(Heuristique selectedHeuristique) {
         this.selectedHeuristique = selectedHeuristique;
     }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
 }

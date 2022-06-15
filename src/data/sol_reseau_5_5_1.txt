@@ -1,0 +1,1 @@
+START [0, 0] -> COMMON [0, 1] -> COMMON [0, 2] -> COMMON [0, 3] -> COMMON [1, 4] -> COMMON [2, 3] -> COMMON [2, 2] -> COMMON [2, 1] -> COMMON [3, 0] -> COMMON [4, 1] -> COMMON [4, 2] -> COMMON [4, 3] -> END [4, 4]

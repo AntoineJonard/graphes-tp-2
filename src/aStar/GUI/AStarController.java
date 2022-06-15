@@ -75,7 +75,7 @@ public class AStarController implements A_StarListener {
             };
         }
 
-        A_StarAsync resolution = new A_StarAsync(this, graphe, Heuristique.EUCLIDEAN);
+        A_StarAsync resolution = new A_StarAsync(this, graphe, getMain().getSelectedHeuristique());
 
         resolution.start();
 
